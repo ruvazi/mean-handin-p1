@@ -1,0 +1,146 @@
+Question 1: Explain basic security terms like authentication, authorization, confidentiality, integrity, SSL/TLS and
+provide examples of how you have used them.
+
+Authentication, is verifying a user. This is usaly done by email and password (or other logins).
+
+Authorization, is delegating rights for users, you might not want(users) or have rigths to be able to see all the data.
+
+Confidentiality, is making sure that the user data that is stored on your system is in safe hands even if someone gets
+to it, ie. Hashing and Salting passwords, not making mistake of send out current passwords ect.
+
+Integrity, is making sure that data cant be modified by anybody, it involves maintaining the consistency,
+accuracy, and trustworthiness of the data. Data must not be changed in transit, and security that the data cannot be
+altered by unauthorized people is part of it.
+
+SSL/TLS, is Secure Socket Layer, its a protocol that enables end to end encryption of http network traffic.
+Transport Layer Security a newer and more secure protocol that has(about to) replaced SSL.
+
+((from sebastian)
+SSL (Secure Sockets Layer) is the standard security technology for establishing an encrypted link between a web server
+and a browser. This link ensures that all data passed between the web server and browsers remain private and integral.
+To be able to create an SSL connection a web server requires an SSL Certificate. When you choose to activate SSL on your
+ web server your web server then creates two cryptographic keys - a Private Key and a Public Key.
+
+The Public Key does not need to be secret and is placed into a Certificate Signing Request (CSR) - a data file also
+containing your details. During the SSL Certificate application process, the Certification Authority will validate your
+ details and issue an SSL Certificate containing your details and allowing you to use SSL. Your web server will match
+ your issued SSL Certificate to your Private Key. Your web server will then be able to establish an encrypted link
+ between the website and your customer's web browser.
+
+The complexities of the SSL protocol remain invisible to your customers. Instead their browsers provide them with a key
+indicator to let them know they are currently protected by an SSL encrypted session - the lock icon in the lower
+right-hand corner, clicking on the lock icon displays your SSL Certificate and the details about it. All SSL
+certificates are issued to either companies or legally accountable individuals.
+
+Typically an SSL Certificate will contain your domain name, your company name, your address, your city, your state and
+your country. It will also contain the expiration date of the Certificate and details of the Certification Authority
+responsible for the issuance of the Certificate. When a browser connects to a secure site it will retrieve the site's
+SSL Certificate and check that it has not expired, it has been issued by a Certification Authority the browser trusts,
+and that it is being used by the website for which it has been issued. If it fails on any one of these checks the
+browser will display a warning to the end user letting them know that the site is not secured by SSL.)
+________________________________________________________________________________________________________________________
+
+2: Explain basic security threads like: Cross Site Scripting (XSS), SQL Injection and whether something similar to SQL
+injection is possible with NoSQL databases like MongoDB, and DOS-attacks. Explain/demonstrate ways to cope with these
+problems?
+
+Cross-site Scripting (XSS) refers to client-side code injection attack wherein an attacker can execute malicious scripts
+into a legitimate website or web application. XSS is amongst the most rampant of web application vulnerabilities and
+occurs when a web application makes use of unvalidated or unencoded user input within the output it generates
+(remember to sanitize)
+
+SQL injection, manipulation with badly written db inputs, its stopped with preppared statements, also sanitize make
+sure user cannot type in things wrongly.
+
+DOS-attack
+
+Denial of Service attacks is a type of attack that prevent legitemate users from using your service. This can either be
+done by crashing your service, or by flooding your service.
+
+________________________________________________________________________________________________________________________
+
+Question 3: Explain, at a fundamental level, the technologies involved, and the steps required initialize a SSL
+connection between a browser and a server and how to use SSL in a secure way.
+
+encryption and decryption is done with certificates and user keys
+
+1. Client hello, client sends a hello message containing basic information like SSL/TLS version and a random byte string.
+2. Server hello, server responds with a hello message containg basic information like in client hello, a random byte
+string and a digital certificate.
+3. Client verification, the client verifies the certificate.
+4. Server verification, the clients send a certificate that the server verifies.
+5. Clients message, the client uses the random byte string(key) from the server to encrypt a message, then encrypt both
+the encrypted message and the key, using the servers public key, and sends it to the server.
+6. Server message, the server uses its private key to unencrypt the encrypted message and key, and uses the key to
+unencrypt the message. The server then does the same as the client using the clients public key and sends a message back.
+
+________________________________________________________________________________________________________________________
+
+Question 4: Explain and demonstrate ways to protect user passwords on our backends, and why this is necessary
+
+use oneway cryptographic hashing and salting on password and user login input.
+
+Question 5: Explain about password hashing, salts and the difference between bcrypt and older (not recommended)
+algorithms like sha1, md5 etc.
+
+Salt is adding lines to the password to prevend rainbowtables.
+
+SHA1 and MD5 are old hashing algorithms and are not considered safe anymore, because computers have alot faster compared
+to when these algorithms were developed, and rainbow tables have been created for all the most common passwords for both
+algorithms.
+
+Instead use a newer algorithm like SHA256 or SHA512, the number of bits is important.
+
+BCrypt takes another approach to the hashing algorithm, instead of being faster and haevy in bits its slow at hashing
+and there fore rainbowtables is difficult to create.
+
+________________________________________________________________________________________________________________________
+
+Question 6: Explain about JSON Web Tokens (jwt) and why they are very suited for a REST-based API
+
+JWT is a way to handle token based authentication, whenever a user logs in to your site, they get a token in return
+this token holds information about the user and whether they are autheticated or not. Whenever the user makes and http
+request it sends along this token that is used for authentication, this is called stateless authentication. JWT follow
+the standard (RFC 7519) that defines a compact and self-contained way for securely transmitting information between
+parties as a JSON object.
+
+________________________________________________________________________________________________________________________
+
+Question 7: Explain and demonstrate a system using jwt's, focusing on both client and server side.
+(see coding example)
+
+When a client logs in to a system the Authentication Token is saved in a session local with following code:
+    $window.sessionStorage.id_token = data.token;
+
+So when the same client log in again and make a http request, a authinterceptor will intercept the request and add a
+header called Authorization containing the token;
+    config.headers.Authorization = $window.sessionStorage.token;
+________________________________________________________________________________________________________________________
+
+Question 8: Explain and demonstrate use of the npm passportjs module?
+
+using teaching example by Lars.(added later)
+
+NPM install passport
+passport hp: http://passportjs.org/
+use this git, for facebook: https://github.com/passport/express-4.x-facebook-example
+and remember to activate it on: developer.facebook.com
+
+________________________________________________________________________________________________________________________
+Question 9: Explain, at a very basic level, OAuth 2 + OpenID Connect and the problems it solves.
+
+OAuth the predecessor to OAuth2 is a protocol/standard makes 3rd party sites able to get access to a ressource server
+on your site this is simply done by given the 3rd party an authentication token. This can seen many places today, where
+you can login with Facebook on many different services. OAuth2 and OpenID Connect, adds another token to this protocol.
+An ID token that is used for identification this way the resource server knows which user is trying to get informatin.
+
+OAuth is mainly used by social platforms, such as Facebook, Twitter, and Google, to allow users to register with other
+websites using their social account.
+
+________________________________________________________________________________________________________________________
+
+10: Demonstrate, with focus on security, a proposal for an Express/Mongo+Angular-seed with built in support for most of
+the basic security problems, SSL and ready to deploy on your favourite Cloud Hosting Service.
+
+(see added code for seed later)
+
