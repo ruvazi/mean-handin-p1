@@ -60,7 +60,7 @@ ________________________________________________________________________________
 Explain using an example the "fundamentals" of an ionic application.
 
 Ionics fundamentals is a HTML5 language which is builded on AngularJS and cordova.
-See the project blank in same git as this: .
+See the project blank in same git as this: https://github.com/ruvazi/mean-handin-p1/tree/master/examQuestion-p6/blank
 
 When creating the HTML for a the app, Ionic specific directives is used like this.
 
