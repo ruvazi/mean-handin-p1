@@ -1,0 +1,120 @@
+Explain the concept of Hybrid Mobile App Development
+
+The concept about hybrid app development, is that you use web programming language like HTML, CSS, JavaScript to code an
+app for any platform, phones tablets etc.
+________________________________________________________________________________________________________________________
+
+Explain the Pros & Cons of using Hybrid Mobile App Development compared to Native App Development.
+
+Pros about hybrid mobiles apps developments:
+
+    Easy to create and you only have to know about web techs.
+    You can converte the code to platforms like iOS or andriod.
+    Unlimited possibilities because its created with HTML
+    Multi platform, you don't need to be profficient in multiple languages to create apps for android and IOS
+
+cons/The disadvantage about hybrid apps:
+
+    You dont have specific native app development tools and libraries.
+    Hybrid apps are slower than the native.
+________________________________________________________________________________________________________________________
+
+Explain about the "building blocks" involved in an ionic Hybrid Application
+
+The building blocks of a hybrid app has three key blocks
+
+    The codebase – made with webtechnologies
+    Compiler – PhoneGap/ionic
+    Runtime – Native platform
+________________________________________________________________________________________________________________________
+
+Explain and demonstrate ways to debug Hybrid Mobile Applications Running on a real device?
+(each line is a step)
+
+    -Enable USB debugging on your device: https://developer.chrome.com/devtools/docs/remote-debugging
+    -Open Chrome on your desktop (development) machine and navigate to: chrome://inspect
+    -Select Discover USB Devices.
+    -Select your device.
+    -To use your device to debug a web application that’s running on your development machine
+    -Click Port forwarding….
+    -Set the device port and the localhost port.
+    -Select Enable port forwarding. See https://developer.chrome.com/devtools/docs/remote-debugging#port-forwarding
+    for details.
+________________________________________________________________________________________________________________________
+
+Explain when and why CORS is a problem for Hybrid Mobile Applications?
+
+Cross Origin Ressource Sharing (CORS) is a safety feature in modern browsers that does not allow the website make an
+HTTP request to a url that is not the same as the root of the site. This can cause problems in Hybrid App development
+when trying to use an API like Google Maps that has a different url than the app has when developing it.
+FireBase can be used as a solution to get around the safety feature.
+
+________________________________________________________________________________________________________________________
+
+Explain how and why it is possible for a Hybrid Application to access native phone devices like location, calendar etc?
+
+Hybrid Apps use frameworks like Cordova or PhoneGap, access the native features of the phone. These frameworks has API's
+that can access these features,this makes development easy for us. Cordova is used for compiling ionic.
+________________________________________________________________________________________________________________________
+
+Explain using an example the "fundamentals" of an ionic application.
+
+Ionics fundamentals is a HTML5 language which is builded on AngularJS and cordova.
+See the project blank in same git as this: .
+
+When creating the HTML for a the app, Ionic specific directives is used like this.
+
+<ion-view view-title="Favorites | {{ username }}" class="favorites-page">
+    <ion-nav-buttons side="right">
+        <button class="button" ng-click="logout()">
+            Log out
+        </button>
+    </ion-nav-buttons>
+    <ion-content>
+
+        <ion-list>
+            <ion-item ng-repeat="song in favorites" class="item-avatar" ng-click="openSong(song)">
+                <img ng-src="{{ song.image_small }}">
+                <h2>{{ song.title }}</h2>
+                <p>{{ song.artist }}</p>
+
+                <ion-option-button class="button-assertive" ng-click="removeSong(song, $index)">
+                    <i class="ion-minus-circled"></i>
+                </ion-option-button>
+            </ion-item>
+        </ion-list>
+
+
+    </ion-content>
+</ion-view>
+
+________________________________________________________________________________________________________________________
+
+Explain using an example how your Hybrid Application communicates with a backend and how CORS problems were solved (if any)?
+
+My app uses jQuery to make requestz to an external api.
+
+o.getNextSongs = function () {
+            return $http({
+                method: 'GET',
+                url: SERVER.url + '/recommendations'
+            }).success(function (data) {
+                o.queue = o.queue.concat(data);
+            });
+        };
+
+To solve CORS problems you need to setup a proxy server that sends our request to the the real api.
+To do this setup ionic.project like this.
+
+{
+  "name": "proxy-example",
+  "app_id": "",
+  "proxies": [
+    {
+      "path": "/api",
+      "proxyUrl": "http://cors.api.com/api"
+    }
+  ]
+}
+
+(from jonas Rafn)
